@@ -1,3 +1,3 @@
-import FieldSelector from 'components/FieldSelector/FieldSelector'
+import FieldSelector from 'components/FieldSelector/FieldSelector';
 
-export default FieldSelector
+export default FieldSelector;

@@ -1,0 +1,16 @@
+.dashboard-main-content {
+  height: 100%;
+}
+
+.dashboard-sidbar-container {
+  margin-top: 0 !important;
+}
+
+.dashboard-sidebar {
+  /* background-color: lightgrey !important; */
+  padding: 0 !important;
+}
+
+.dashboard-pusher {
+  height: 100%;
+}

@@ -1,33 +1,15 @@
-import { useState } from 'react'
-import { Button, Segment, Sidebar, SidebarPushable, SidebarPusher } from 'semantic-ui-react'
+import Dashboard from './views/Dashboard';
 
-import './App.css'
-import FieldSelector from './components/FieldSelector/FieldSelector'
+import './styling.css';
 
-const VerticalSpaceTesting = () => {
-  return <><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></>
-}
-
+// Note: this demo app only has one view Dashboard if other views were needed for the app
+// this is where routing (with react-router) would be set up.
 function App() {
-  const [showFieldSelector, setShowFieldSelector] = useState(true)
-
-
   return (
-    <div>
-      <SidebarPushable as={Segment}>
-        <Sidebar as={Segment} animation='uncover' visible={showFieldSelector} onHide={() => setShowFieldSelector(false)}>
-          <FieldSelector />
-        </Sidebar>
-        <SidebarPusher>
-          <Button
-            onClick={() => {
-              setShowFieldSelector(!showFieldSelector)
-            }}>toggle
-          </Button>          
-        </SidebarPusher>
-      </SidebarPushable>
+    <div id="udfb-main-content">
+      <Dashboard />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

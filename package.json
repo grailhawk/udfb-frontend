@@ -15,6 +15,9 @@
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
