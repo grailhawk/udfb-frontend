@@ -1,7 +1,12 @@
 import { Button, Icon } from 'semantic-ui-react';
 import Header from 'components/Header';
+import InputField from 'components/Fields/InputField';
 
 import 'components/FieldSelector/styling.css';
+
+const FieldSelectorItem = ({ children }) => {
+  return <div className="field-selector-item">{children}</div>;
+};
 
 export default function FieldSelector({ onClose }) {
   return (
@@ -11,7 +16,11 @@ export default function FieldSelector({ onClose }) {
           <Icon name="close" />
         </Button>
       </Header>
-      <div className="field-selector-list"></div>
+      <div className="field-selector-list">
+        <FieldSelectorItem>
+          <InputField lable={'input field'} />
+        </FieldSelectorItem>
+      </div>
     </div>
   );
 }

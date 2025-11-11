@@ -1,6 +1,8 @@
 import 'components/Header/styling.css';
 import { Divider } from 'semantic-ui-react';
 
+import logo from 'assets/logo30.png';
+
 // Note this is a very simple header but my experiance has been that its a very reusable component in differnet applciations
 function Header({
   branded,
@@ -15,7 +17,7 @@ function Header({
   if (branded != null) {
     brand = (
       <div className="header-branding">
-        <span>{`<Company Name or Logo Here>`}</span>
+        <img className="header-logo" src={logo} />
       </div>
     );
   }
