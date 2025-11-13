@@ -6,29 +6,15 @@ import {
 import invariant from 'tiny-invariant';
 
 import { CanvasItems } from 'components/FormsContainer/FormsContainer';
-import { FieldTypes } from 'components/Fields/util';
+import Builder from 'components/FormsAndFieldsBuilder/Builder';
+import { FieldTypesId, FormTypesId } from 'components/Fields';
 
 import 'components/Forms/styling.css';
-import InputField from 'components/Fields/InputField';
 
-const BuildFormFieldsForList = ({ list }) => {
-  const fields = [];
-
-  Object.keys(list).forEach((key) => {
-    const field = list[key];
-
-    if (field.type === FieldTypes.input) {
-      fields.push(<InputField key={field.id} lable={field.lable || 'Name'} />);
-    }
-  });
-
-  return <>{...fields}</>;
-};
-
-const FormFieldsList = ({}) => {
+const FormFieldsList = ({ id, stagnant, content, onAddField }) => {
   const list = useRef(null);
 
-  const [fieldsInList, setFieldsInList] = useState({});
+  //const [fieldsInList, setFieldsInList] = useState({});
 
   useEffect(() => {
     const el = list.current;
@@ -37,24 +23,16 @@ const FormFieldsList = ({}) => {
     const stop = dropTargetForElements({
       element: el,
       canDrop: ({ source }) => {
-        const test = source.data?.type === FieldTypes.generic;
-        console.log(test);
+        if (stagnant) return false;
+        const test =
+          source.data?.type === FieldTypesId ||
+          source.data?.type === FormTypesId;
         return test;
       },
-      onDrop: ({ source }) => {
-        console.log('here');
-        setFieldsInList((oldList) => {
-          const newList = { ...oldList };
-
-          const uuid = crypto.randomUUID();
-          newList[uuid] = {
-            id: uuid,
-            type: source.data.fieldType,
-          };
-
-          console.log(newList);
-          return newList;
-        });
+      onDrop: ({ source, location }) => {
+        if (!stagnant) {
+          onAddField(id, source);
+        }
       },
     });
 
@@ -63,12 +41,23 @@ const FormFieldsList = ({}) => {
 
   return (
     <div ref={list} className="udfb-form-fields">
-      <BuildFormFieldsForList list={fieldsInList} />
+      <Builder list={content || {}} />
     </div>
   );
 };
 
-function Form({ id, top, left, z, width, height, onResize }) {
+function Form({
+  id,
+  stagnant,
+  content,
+  top,
+  left,
+  z,
+  width,
+  height,
+  onAddField,
+  onResize,
+}) {
   const form = useRef(null);
   const handle = useRef(null);
   const [dragging, setDragging] = useState(false);
@@ -148,7 +137,6 @@ function Form({ id, top, left, z, width, height, onResize }) {
               zIndex: z,
               width: `${width}px`,
               height: `${height}px`,
-              opacity: 0.4,
             }
           : {
               top: `${top}px`,
@@ -163,7 +151,12 @@ function Form({ id, top, left, z, width, height, onResize }) {
       <div ref={handle} className="udfb-form-drag-handle"></div>
       <div className="udfb-form-content">
         <div className="udfb-form-info">{id}</div>
-        <FormFieldsList />
+        <FormFieldsList
+          id={id}
+          stagnant={stagnant}
+          content={content}
+          onAddField={onAddField}
+        />
       </div>
       <div
         onPointerDown={(e) => handleFormResize(e, 'right')}

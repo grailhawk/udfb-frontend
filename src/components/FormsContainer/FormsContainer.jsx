@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import {
   draggable,
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import invariant from 'tiny-invariant';
 
+import Button from 'components/Button';
+import Builder from 'components/FormsAndFieldsBuilder/Builder';
 import Header from 'components/Header';
 import Form from 'components/Forms';
+import { CustomeUserFormTypeId, FormTypesId } from 'components/Fields';
+
 import 'components/FormsContainer/styling.css';
 
 export const CanvasItems = {
@@ -15,7 +19,7 @@ export const CanvasItems = {
   forms: 'forms',
 };
 
-const CanvasControls = ({ top, left, onAddForms, onEditForms }) => {
+const CanvasControls = ({ top, left, onAddForms, onResetCanvas }) => {
   const controls = useRef(null);
   const handle = useRef(null);
   const [dragging, setDragging] = useState(false);
@@ -44,28 +48,39 @@ const CanvasControls = ({ top, left, onAddForms, onEditForms }) => {
       ref={controls}
       style={
         dragging
-          ? { top: `${top}px`, left: `${left}px`, opacity: 0.0 }
+          ? {
+              top: `${top}px`,
+              left: `${left}px`,
+              opacity: 0.0,
+            }
           : { top: `${top}px`, left: `${left}px` }
       }
       className="forms-container-canvas-controls"
     >
       <Button
-        basic
-        icon
-        color="blue"
-        size="mini"
+        description="Add New Form"
+        icon="plus"
         onClick={() => {
-          onEditForms();
           onAddForms();
         }}
-      >
-        <Icon name="plus" />
-      </Button>
+      />
+      <Button
+        description="Reset Canvas"
+        icon="redo"
+        onClick={() => {
+          onResetCanvas();
+        }}
+      ></Button>
     </div>
   );
 };
 
-const Canvas = ({ children, onMoveControls, onFormMove }) => {
+const Canvas = ({
+  children,
+  onAddPredesginedForm,
+  onMoveControls,
+  onFormMove,
+}) => {
   const canvas = useRef(null);
   const offsets = useRef({ x: 0, y: 0 });
 
@@ -78,7 +93,8 @@ const Canvas = ({ children, onMoveControls, onFormMove }) => {
       canDrop: ({ source }) => {
         return (
           source.data?.type === CanvasItems.controls ||
-          source.data?.type === CanvasItems.forms
+          source.data?.type === CanvasItems.forms ||
+          source.data?.type === FormTypesId
         );
       },
       onDragStart: ({ source, location }) => {
@@ -87,11 +103,17 @@ const Canvas = ({ children, onMoveControls, onFormMove }) => {
 
         offsets.current = { x: clientX - rect.left, y: clientY - rect.top };
       },
-      onDrop: ({ source, location }) => {
+      onDrop: ({ self, source, location }) => {
+        // If the canvas is NOT the deepest drop target we can bail.
+        if (location.current.dropTargets[0]?.element !== self.element) {
+          // A child (e.g., Form) got the drop we don't also need handle it here
+          return;
+        }
+
         const rect = el.getBoundingClientRect();
         const { clientX, clientY } = location.current.input;
 
-        // position relative to canvas, minus the "grab point" offset
+        // position relative to canvas
         const x = clientX - rect.left - offsets.current.x;
         const y = clientY - rect.top - offsets.current.y;
 
@@ -104,6 +126,14 @@ const Canvas = ({ children, onMoveControls, onFormMove }) => {
 
         if (source.data.type === CanvasItems.forms) {
           onFormMove({ id: source.data.id, x: clampedX, y: clampedY });
+        }
+
+        if (source.data.type === FormTypesId) {
+          if (source.data.id == null) {
+            onAddPredesginedForm(source.data);
+          } else {
+            onFormMove({ id: source.data.id, x: clampedX, y: clampedY });
+          }
         }
       },
     });
@@ -127,13 +157,16 @@ function FormsContainer({
   onFormMove,
   onFormResize,
   onMoveControls,
+  onResetCanvas,
+  onAddPredesginedForm,
+  onAddFieldToFrom,
 }) {
   const canvasControls = (
     <CanvasControls
       top={controls.y}
       left={controls.x}
       onAddForms={onAddForms}
-      onEditForms={onEditForms}
+      onResetCanvas={onResetCanvas}
     />
   );
   let renderControls = null;
@@ -144,6 +177,7 @@ function FormsContainer({
   let formComponents = [];
   Object.keys(forms).forEach((key) => {
     const form = forms[key];
+
     formComponents.push(
       <Form
         key={form.id}
@@ -153,7 +187,10 @@ function FormsContainer({
         z={form.z}
         width={form.w}
         height={form.h}
+        content={form.fields}
+        stagnant={form.type !== CustomeUserFormTypeId}
         onResize={onFormResize}
+        onAddField={onAddFieldToFrom}
       />
     );
   });
@@ -166,12 +203,18 @@ function FormsContainer({
           title="User Defined Form Builder Demo"
           description="This is a demo used to show off skills and understanding of React. It aims to build a drag and drop interface for creating user defined forms."
         >
-          <Button basic icon color="blue" size="mini" onClick={onEditForms}>
-            <Icon name="edit outline" />
-          </Button>
+          <Button
+            description="Edit Canvas"
+            icon="edit outline"
+            onClick={onEditForms}
+          />
         </Header>
       </div>
-      <Canvas onMoveControls={onMoveControls} onFormMove={onFormMove}>
+      <Canvas
+        onAddPredesginedForm={onAddPredesginedForm}
+        onMoveControls={onMoveControls}
+        onFormMove={onFormMove}
+      >
         {renderControls}
         {...formComponents}
       </Canvas>

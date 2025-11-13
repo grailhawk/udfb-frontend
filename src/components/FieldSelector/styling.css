@@ -6,4 +6,9 @@
 }
 
 .field-selector-item {
+  margin: 5px;
+  padding: 8px;
+  border-bottom: 1px solid #b8c2cc;
+  border-radius: 10px;
+  background-color: lightgrey;
 }

@@ -1,3 +1,4 @@
+// Utility functions used to save data to local Storage
 function getKnownFormsId(user) {
   return `udfb-${user}-known-forms`;
 }

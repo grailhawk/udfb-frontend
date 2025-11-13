@@ -14,3 +14,8 @@
 .dashboard-pusher {
   height: 100%;
 }
+
+.drag-fix {
+  opacity: 1 !important;
+  background: white !important;
+}
