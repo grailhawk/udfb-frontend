@@ -8,7 +8,7 @@ import {
 
 import FieldSelector from 'components/FieldSelector/FieldSelector';
 import FormsContainer from 'components/FormsContainer/FormsContainer';
-import { CustomeUserFormTypeId } from 'components/Fields';
+import { CustomUserFormTypeId } from 'components/Fields';
 import Header from 'components/Header';
 
 import {
@@ -25,11 +25,11 @@ function Dashboard() {
   const [canvasControls, setCanvasControls] = useState({ x: 5, y: 5 });
   const [formsInCanvas, setFormsInCanvas] = useState({});
 
-  // Evernt Hanlers
+  // Event Handlers
   const handleShowFieldSelector = () => setShowFieldSelector(true);
   const handleHideFieldSelector = () => setShowFieldSelector(false);
 
-  const handleMoveCanvasControles = ({ x, y }) => {
+  const handleMoveCanvasControls = ({ x, y }) => {
     saveCanvasControls({ x, y });
     setCanvasControls({ x, y });
   };
@@ -90,7 +90,7 @@ function Dashboard() {
     return newForms;
   };
   const handleAddCustomForm = () => {
-    setFormsInCanvas((prev) => handleAddFrom(prev, CustomeUserFormTypeId));
+    setFormsInCanvas((prev) => handleAddFrom(prev, CustomUserFormTypeId));
   };
   const handleAddPredesginedForm = ({ fieldType }) => {
     const uuid = crypto.randomUUID();
@@ -98,7 +98,7 @@ function Dashboard() {
     setFormsInCanvas((prev) => handleAddFrom(prev, fieldType, fields));
   };
   const handleResetCanvas = () => {
-    setFormsInCanvas((oldForms) => {
+    setFormsInCanvas(() => {
       saveDefinedForms({});
       return {};
     });
@@ -145,7 +145,7 @@ function Dashboard() {
   return (
     <div className="dashboard-main-content">
       <Header branded />
-      <SidebarPushable className="dashboard-sidbar-container" as={Segment}>
+      <SidebarPushable className="dashboard-sidebar-container" as={Segment}>
         <Sidebar
           className="dashboard-sidebar"
           as={Segment}
@@ -162,7 +162,7 @@ function Dashboard() {
             editMode={showFieldSelector}
             onAddForms={handleAddCustomForm}
             onEditForms={handleShowFieldSelector}
-            onMoveControls={handleMoveCanvasControles}
+            onMoveControls={handleMoveCanvasControls}
             onFormMove={handleMoveForm}
             onFormResize={handleFormResize}
             onResetCanvas={handleResetCanvas}

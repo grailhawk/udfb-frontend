@@ -1,6 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
-import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import invariant from 'tiny-invariant';
 import { Input } from 'semantic-ui-react';
 
 import { FieldTypesId } from 'components/Fields';
@@ -9,7 +6,7 @@ import { useDraggableField } from 'utils/hooks/useDraggableField';
 
 import 'components/Fields/styling.css';
 
-function InputField({ id, lable }) {
+function InputField({ id, label }) {
   const { ref } = useDraggableField({
     id,
     type: FieldTypesId,
@@ -18,7 +15,7 @@ function InputField({ id, lable }) {
 
   return (
     <div ref={ref} className="input-field-container">
-      <Input fluid placeholder={lable} />
+      <Input fluid placeholder={label} />
     </div>
   );
 }

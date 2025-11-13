@@ -5,7 +5,7 @@ import { FieldTypesId } from 'components/Fields';
 
 import { useDraggableField } from 'utils/hooks/useDraggableField';
 
-function CountrySelectField({ id, lable }) {
+function CountrySelectField({ id, label }) {
   const { ref } = useDraggableField({
     id,
     type: FieldTypesId,
@@ -14,7 +14,7 @@ function CountrySelectField({ id, lable }) {
 
   return (
     <div ref={ref} className="input-field-container">
-      <Dropdown fluid selection placeholder={lable} options={CountryOptions} />
+      <Dropdown fluid selection placeholder={label} options={CountryOptions} />
     </div>
   );
 }

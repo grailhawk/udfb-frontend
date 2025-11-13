@@ -10,7 +10,7 @@ import Button from 'components/Button';
 import Builder from 'components/FormsAndFieldsBuilder/Builder';
 import Header from 'components/Header';
 import Form from 'components/Forms';
-import { CustomeUserFormTypeId, FormTypesId } from 'components/Fields';
+import { CustomUserFormTypeId, FormTypesId } from 'components/Fields';
 
 import 'components/FormsContainer/styling.css';
 
@@ -188,7 +188,7 @@ function FormsContainer({
         width={form.w}
         height={form.h}
         content={form.fields}
-        stagnant={form.type !== CustomeUserFormTypeId}
+        stagnant={form.type !== CustomUserFormTypeId}
         onResize={onFormResize}
         onAddField={onAddFieldToFrom}
       />

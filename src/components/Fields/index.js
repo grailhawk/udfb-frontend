@@ -4,7 +4,7 @@ import LoginForm from 'components/Fields/LoginForm';
 
 export const FieldTypesId = 'fields';
 export const FormTypesId = 'built-forms';
-export const CustomeUserFormTypeId = 'udfb-custom-user-form';
+export const CustomUserFormTypeId = 'udfb-custom-user-form';
 
 export const registryForFields = {
   CountrySelectField,

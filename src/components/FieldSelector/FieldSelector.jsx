@@ -1,7 +1,7 @@
 import { Button, Icon, TabPane, Tab } from 'semantic-ui-react';
 import Header from 'components/Header';
 import {
-  CustomeUserFormTypeId,
+  CustomUserFormTypeId,
   registryForFields,
   registryForForms,
 } from 'components/Fields';
@@ -20,7 +20,7 @@ const FieldSelectorTab = () => {
     if (Component) {
       fields.push(
         <FieldSelectorItem>
-          <Component lable={key} />
+          <Component label={key} />
         </FieldSelectorItem>
       );
     }
@@ -41,7 +41,7 @@ const FormsSelectorTab = () => {
     if (Component) {
       forms.push(
         <FieldSelectorItem>
-          <Component lable={key} />
+          <Component label={key} />
         </FieldSelectorItem>
       );
     }

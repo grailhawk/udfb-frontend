@@ -8,8 +8,8 @@ function getCanvasControlsId(user) {
 }
 
 export function saveDefinedForms(forms, user) {
-  const strigifyForms = JSON.stringify(forms);
-  localStorage.setItem(getKnownFormsId(user), strigifyForms);
+  const stringifyForms = JSON.stringify(forms);
+  localStorage.setItem(getKnownFormsId(user), stringifyForms);
 }
 
 export function loadDefinedForms(user) {

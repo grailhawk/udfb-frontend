@@ -1,6 +1,6 @@
 import { Button, Icon, Popup } from 'semantic-ui-react';
 
-// Simple button component to easilty apply tool tips to button
+// Simple button component to easily apply tool tips to button
 function UDFBButton({ description, icon, onClick }) {
   const triggerButton = (
     <Button

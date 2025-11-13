@@ -12,7 +12,7 @@ function Builder({ list }) {
         <Component
           key={field.id}
           id={field.id}
-          lable={field.lable || field.type}
+          label={field.label || field.type}
         />
       );
     }

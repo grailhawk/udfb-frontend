@@ -3,7 +3,7 @@ import { Divider } from 'semantic-ui-react';
 
 import logo from 'assets/logo30.png';
 
-// Note this is a very simple header but my experiance has been that its a very reusable component in differnet applciations
+// Note this is a very simple header but my experience has been that its a very reusable component in different applications
 function Header({
   branded,
   center,
